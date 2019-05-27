@@ -1,0 +1,36 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:    
+      versionSpec: '10.x'
+
+  - script: 
+      #npm install --save-dev @angular-devkit/build-angular
+      npm install -g @angular/cli      
+      npm install
+      npm update
+    displayName: 'npm install'
+    workingDirectory: Client
+  
+  - script:  
+      ng build --only=dev
+    displayName: 'ng build'
+    workingDirectory: Client
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'Client/dist'
+      ArtifactName: angular2
