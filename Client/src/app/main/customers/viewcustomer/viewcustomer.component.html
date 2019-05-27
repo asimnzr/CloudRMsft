@@ -1,0 +1,1576 @@
+<div id="customer" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/customers/viewcustomer'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div class="customer-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    <!-- <img *ngIf="customer.images[0]" [src]="customer.images[0].url">
+                    <img *ngIf="!customer.images[0]" [src]="'assets/images/ecommerce/customer-image-placeholder.png'"> -->
+                </div>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                    [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='edit'">
+                        {{customerAct}}                        
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='new'">
+                        New Customer
+                    </div>
+                    <!-- <div class="subtitle secondary-text">
+                        <span>Customer Detail</span>
+                    </div> -->
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button class="save-customer-button" [disabled]="customerForm.invalid"
+                *ngIf="pageType ==='new'" (click)="addCustomer()">
+                <span>ADD</span>
+            </button>
+
+            <button mat-raised-button class="save-customer-button"
+                [disabled]="customerForm.invalid || customerForm.pristine" *ngIf="pageType ==='edit'"
+                (click)="saveCustomer()">
+                <span>SAVE</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="customerForm" [formGroup]="customerForm" class="customer w-100-p" fxLayout="column" fxFlex>
+
+                        <mat-toolbar class="assent">
+                               
+                                <mat-toolbar-row fxLayoutAlign="layout-margin center">
+
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Close">
+                                            <mat-icon>close</mat-icon>
+                                            <!-- <div>Close</div> -->
+                                    </button>
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Modify">
+                                            <mat-icon>edit</mat-icon>
+                                            <!-- <div>Modify</div> -->
+                                    </button>
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Save">
+                                            <mat-icon>save</mat-icon>
+                                            <!-- <div>Save</div> -->
+                                    </button>
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Delete">
+                                            <mat-icon >delete_outline</mat-icon>
+                                            <!-- <div>Delete</div> -->
+                                    </button>
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Reports">
+                                            <mat-icon>style</mat-icon>
+                                            <!-- <div>Reports</div> -->
+                                    </button>
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Create Order">
+                                            <mat-icon>create_new_folder</mat-icon>
+                                            <!-- <div>Create Order</div> -->
+                                    </button>
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Create Credit">
+                                            <mat-icon>account_box</mat-icon>
+                                            <!-- <div>Create Credit</div> -->
+                                    </button>
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Settlement Routine">
+                                            <mat-icon>error</mat-icon>
+                                            <!-- <div>Settlement Routine</div> -->
+                                    </button>
+                                    <button mat-icon-button (click)="changeLeftSidenavView('chats')" disabled title="Copy to new customer">
+                                            <mat-icon>account_box</mat-icon>
+                                            <!-- <div>Copy to New Customer</div> -->
+                                    </button>
+
+                            
+                                </mat-toolbar-row>
+                            
+                              </mat-toolbar>
+
+                    <mat-tab-group>
+
+                        <mat-tab label="Snapshot">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+
+                                <!-- Icon group - Name and Address -->
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Name and Address Information</div>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Account</mat-label>
+                                        <input matInput name="account" formControlName="account">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Business Name</mat-label>
+                                        <input matInput name="businessName" formControlName="name">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Address1</mat-label>
+                                        <input matInput name="address1" formControlName="address1">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <input matInput placeholder="Address2" name="address2"
+                                            formControlName="address2">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Town</mat-label>
+                                        <input matInput name="town" formControlName="address3">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Region/Country</mat-label>
+                                        <input matInput name="region" formControlName="address4">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Postcode</mat-label>
+                                        <input matInput name="postcode" formControlName="postcode">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Country</mat-label>
+                                        <mat-select formControlName="countryID">
+                                            <mat-option *ngFor="let country of countries"
+                                                        [value]="country.countryID">
+                                                        {{country.name}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Currency</mat-label>
+                                        <mat-select formControlName="currencyID">
+                                            <mat-option *ngFor="let currency of currencies"
+                                                        [value]="currency.currencyID">
+                                                        {{currency.longname}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Customer Note</mat-label>
+                                    <input matInput name="note" formControlName="addressNote">
+                                </mat-form-field>
+
+                                <!-- Icon group - Contact Information -->
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Contact Information</div>
+                                </div>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Department</mat-label>
+                                    <mat-select>
+                                        <mat-option [value]="MainDepartment">
+                                            Main Department
+                                        </mat-option>
+                                        <mat-option [value]="BuyingDepartment">
+                                            Buying Department
+                                        </mat-option>
+                                        <mat-option [value]="AccountsDepartment">
+                                            Accounts Department
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Title</mat-label>
+                                        <input matInput name="title" formControlName="title">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Firstname</mat-label>
+                                        <input matInput name="firstname" formControlName="firstname">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Surname</mat-label>
+                                        <input matInput name="surname" formControlName="surname">
+                                    </mat-form-field>
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" fxFlex="30">
+                                        <mat-label></mat-label>
+                                        <mat-select formControlName="countryID">
+                                            <mat-option *ngFor="let type of emailContactTypes"
+                                                        [value]="type.ContactTypeID">
+                                                        {{type.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="90">
+                                        <input matInput name="contact1" formControlName="telephone">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" fxFlex="30">
+                                        <mat-label></mat-label>
+                                        <mat-select formControlName="countryID">
+                                            <mat-option *ngFor="let type of emailContactTypes"
+                                                        [value]="type.ContactTypeID">
+                                                        {{type.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="90">
+                                        <input matInput name="firstname" formControlName="telephone">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" fxFlex="30">
+                                        <mat-label></mat-label>
+                                        <mat-select formControlName="countryID">
+                                            <mat-option *ngFor="let type of emailContactTypes"
+                                                        [value]="type.ContactTypeID">
+                                                        {{type.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="90">
+                                        <input matInput name="firstname" formControlName="telephone">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" fxFlex="30">
+                                        <mat-label></mat-label>
+                                        <mat-select formControlName="countryID">
+                                            <mat-option *ngFor="let type of phoneContactTypes"
+                                                        [value]="type.ContactTypeID">
+                                                        {{type.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="90">
+                                        <input matInput name="firstname" formControlName="telephone">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" fxFlex="30">
+                                        <mat-label></mat-label>
+                                        <mat-select formControlName="countryID">
+                                            <mat-option *ngFor="let type of phoneContactTypes"
+                                                        [value]="type.ContactTypeID">
+                                                        {{type.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="90">
+                                        <input matInput name="firstname" formControlName="telephone">
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Icon group - Account Information -->
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Account Information</div>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Created</mat-label>
+                                        <input matInput placeholder="Created" name="Created" formControlName="createdDate"
+                                            type="date">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Discount</mat-label>
+                                        <input matInput placeholder="Discount %" name="discount"
+                                            formControlName="discount" type="number">
+                                        <span matPostfix>%&nbsp;</span>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Account Type</mat-label>
+                                        <mat-select>
+                                            <mat-option [value]="0">
+                                                Show all
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Settlement Days</mat-label>
+                                        <input matInput placeholder="Settlement Days" name="setlmentdays"
+                                            formControlName="settlementDays" type="number">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Credit Limit</mat-label>
+                                        <input matInput placeholder="Credit Limit" name="limit" formControlName="creditLimit"
+                                            type="number">
+                                        <span matPrefix>£&nbsp;</span>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Outstanding</mat-label>
+                                        <input matInput placeholder="Outstanding" name="outstanding"
+                                            formControlName="outstanding" type="number">
+                                        <span matPrefix>£&nbsp;</span>
+                                    </mat-form-field>
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Details last updated</mat-label>
+                                        <input matInput name="lastupdated"
+                                            formControlName="detailsLastUpdated" type="date">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Other</mat-label>
+                                        <input matInput name="other" formControlName="howFound" type="text">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Other1</mat-label>
+                                        <input matInput name="other1" formControlName="other1" type="text">
+                                    </mat-form-field>
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Terms</mat-label>
+                                        <input matInput name="terms" formControlName="terms" type="text">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Delivery Method</mat-label>
+                                        <input matInput name="deliveryMethod" formControlName="deliveryMethod" type="text">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Catalogue</mat-label>
+                                        <mat-select>
+                                            <mat-option [value]="0">
+                                                Show all
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Origin</mat-label>
+                                        <mat-select>
+                                            <mat-option [value]="0">
+                                                Show all
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-label class="custom-margin">T:0 F:0:R:M:0</mat-label>
+                                </div>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-20-p">
+                                    <mat-label>VAT</mat-label>
+                                    <input matInput name="vatNumber" formControlName="vatNumber">
+                                </mat-form-field>
+                                <button mat-raised-button style="margin-left: 5px;" class="mat-accent">Validate</button>
+
+                                <section class="custom-section">
+                                    <label class="custom-margin">Seller type:</label>
+                                    <mat-radio-group formControlName="sellerType">
+                                        <mat-radio-button class="custom-margin" value="Shop and eBay">Shop and eBay
+                                        </mat-radio-button>
+                                        <mat-radio-button class="custom-margin" value="eBay Only">eBay Only
+                                        </mat-radio-button>
+                                        <mat-radio-button class="custom-margin" value="Shop Only">Shop Only
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </section>
+                                <section class="custom-section">
+                                    <mat-checkbox class="custom-margin" formControlName="export">Export</mat-checkbox>
+                                    <mat-checkbox class="custom-margin" formControlName="stop">Stop</mat-checkbox>
+                                    <mat-checkbox class="custom-margin" formControlName="recommendedStockist">Recommended
+                                        Stockist</mat-checkbox>
+                                </section>
+                            </div>
+
+                        </mat-tab>
+                        
+                        <!-- Additional tab -->
+                        <mat-tab label="Additional">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+
+                                <div class="content" [ngClass]="this.view">
+
+                                    <div class="cards">
+
+                                        <!-- CARD 1 -->
+                                        <div class="card">
+
+                                            <!-- PREVIEW -->
+                                            <div class="card-preview">
+
+                                                <div class="fuse-card">
+
+                                                    <div class="p-32">
+                                                        <div class="h1">Wholesale details</div>
+                                                    </div>
+
+                                                    <mat-form-field appearance="outline" floatLabel="always"
+                                                        class="w-100-p">
+                                                        <mat-label>Access</mat-label>
+                                                        <mat-select>
+                                                            <mat-option [value]="0">
+                                                                Show all
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                    <mat-form-field appearance="outline" floatLabel="always"
+                                                        class="w-100-p">
+                                                        <mat-label>Email address</mat-label>
+                                                        <input matInput name="email" formControlName="emailAddress"
+                                                            type="email">
+                                                    </mat-form-field>
+
+                                                    <div class="p-8 pt-0" fxLayout="column"
+                                                        fxLayoutAlign="start center">
+                                                        <button mat-button color="accent" disabled>Send reset password email to
+                                                            customer</button>
+                                                        <button mat-button color="accent" disabled>Change to temporary
+                                                            password</button>
+                                                        <mat-checkbox class="custom-margin" formControlName="hasAccessToLifestyleImages">Has
+                                                            access to lifestyle images</mat-checkbox>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- / CARD 1 -->
+
+                                        <!-- CARD 2 -->
+                                        <div class="card">
+
+                                            <!-- PREVIEW -->
+                                            <div class="card-preview">
+
+                                                <div class="fuse-card" style="min-width: 440px;">
+
+                                                    <div class="p-16">
+                                                        <div class="h1">Customer Terms of Usage Agreement</div>
+                                                    </div>
+
+                                                    <div class="p-16 pt-0 line-height-1.75">
+                                                        The customer agreed to the following agreements:
+                                                    </div>
+
+                                                    <div class="p-16 pt-0 line-height-1.75">
+                                                        <div class="h2">Usage agreement date</div>
+                                                    </div>
+                                                    <div class="p-16 pt-0 line-height-1.75">                                                        
+                                                        <textarea matInput name="agreementDates" formControlName="agreementDates"
+                                                        cols="1" rows="2" readonly></textarea>
+                                                    </div>
+
+                                                    <div class="p-16 pt-0 line-height-1.75">
+                                                        <div class="h2">Customer accepted date</div>
+                                                    </div>
+                                                    <div class="p-16 pt-0 line-height-1.75">
+                                                        <textarea matInput name="acceptedDates" formControlName="acceptedDates"
+                                                        cols="1" rows="2" readonly></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- / CARD 2 -->
+
+                                        <!-- CARD 3 -->
+                                        <div class="card">
+
+                                            <!-- PREVIEW -->
+                                            <div class="card-preview">
+
+                                                <div class="fuse-card">
+
+                                                    <div class="p-32">
+                                                        <div class="h1">Invoicing Preferences</div>
+                                                    </div>
+
+                                                    <div class="p-8 pt-0" fxLayout="column"
+                                                        fxLayoutAlign="start center">
+                                                        <mat-checkbox class="custom-margin" formControlName="stop">
+                                                            Disabled</mat-checkbox>
+                                                    </div>
+                                                    <div class="fuse-card">
+
+                                                        <div class="p-24">
+                                                            <div class="h2">Main Department</div>
+                                                        </div>
+
+                                                        <div class="p-8 pt-0" fxLayout="column"
+                                                            fxLayoutAlign="start margin-left">
+                                                            <mat-checkbox class="custom-margin" formControlName="stop">
+                                                                Email 1 ''</mat-checkbox>
+                                                            <mat-checkbox class="custom-margin" formControlName="stop">
+                                                                Email 2 ''</mat-checkbox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- / CARD 3 -->
+
+                                        <!-- CARD 4 -->
+                                        <div class="card">
+
+                                            <div class="card-preview">
+
+                                                <div class="fuse-card">
+
+                                                    <div class="p-32">
+                                                        <div class="h1">Marketing Preferences</div>
+                                                    </div>
+
+                                                    <div class="p-8 pt-0" fxLayout="column"
+                                                        fxLayoutAlign="start center">
+                                                        <mat-checkbox class="custom-margin" formControlName="tradeMarketingOptOut">Has
+                                                            access to lifestyle images</mat-checkbox>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- / CARD 4 -->
+
+                                        <!-- CARD 5 - Notes -->
+                                        <div class="card">
+
+                                            <div class="card-preview">
+
+                                                <div class="fuse-card">
+
+                                                    <div class="p-32">
+                                                        <div class="h1">Notes</div>
+                                                    </div>
+
+                                                    <textarea matInput name="notes" formControlName="notes" cols="1"
+                                                        rows="5"
+                                                        style="border-style: inset;border-width:1px;"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- / CARD 5 - Notes -->
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </mat-tab>
+
+                        <!-- Branches tab -->
+                        <mat-tab label="Branches">
+                            <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
+
+                                <div fxLayout="row" fxLayoutAlign="margin-left">
+
+                                    <igx-grid #grid1 [data]="data | async" [autoGenerate]="false" [paging]="true" [perPage]="10" (onColumnInit)="initColumns($event)"
+                                             [allowFiltering]="true">
+                                            <!-- <igx-column field="Name" [sortable]="true" header=" "></igx-column> -->
+                                    </igx-grid>                                    
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="margin-left">
+                                    <button mat-raised-button class="accent">
+                                        <span>Add Branch</span>
+                                    </button>
+                                    <button mat-raised-button class="accent" style="margin-left:1px;">
+                                        <span>Delete Branch</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </mat-tab>
+
+                        <!-- Invoices tab -->
+                        <mat-tab label="Invoices">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                    <div fxLayout="row" fxLayoutAlign="margin-left">
+
+                                            <igx-grid #grid1 [data]="data | async" [autoGenerate]="false" [paging]="true" [perPage]="10" (onColumnInit)="initColumns($event)"
+                                                     [allowFiltering]="true">
+                                                    <!-- <igx-column field="Name" [sortable]="true" header=" "></igx-column> -->
+                                            </igx-grid>                                    
+                                        </div>
+                            </div>
+
+                        </mat-tab>
+
+                        <!-- Orders tab -->
+                        <mat-tab label="Orders">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                    <div fxLayout="row" fxLayoutAlign="margin-left">
+
+                                            <igx-grid #grid1 [data]="data | async" [autoGenerate]="false" [paging]="true" [perPage]="10" (onColumnInit)="initColumns($event)"
+                                                     [allowFiltering]="true">
+                                                    <!-- <igx-column field="Name" [sortable]="true" header=" "></igx-column> -->
+                                            </igx-grid>                                    
+                                        </div>
+                            </div>
+
+                        </mat-tab>
+
+                        <!-- Account balance tab -->
+                        <mat-tab label="Account Balance">
+                                <div class="tab-content p-24" fusePerfectScrollbar>
+                                    <section class="custom-section">
+                                        <mat-label>Outstanding:</mat-label>
+                                        <mat-form-field appearance="legacy" class="custom-margin">
+                                            <input matInput name="outstanding" formControlName="outstanding" type="number">
+                                        </mat-form-field>
+
+                                        <mat-label>Credit Limit:</mat-label>
+                                        <mat-form-field appearance="legacy" class="custom-margin">
+                                            <input matInput name="creditLimit" formControlName="creditLimit" type="number">
+                                        </mat-form-field>
+                                    </section>
+                                    <div fxLayout="row" fxLayoutAlign="margin-left">
+
+                                            <igx-grid #grid1 [data]="data | async" [autoGenerate]="false" [paging]="true" [perPage]="10" (onColumnInit)="initColumns($event)"
+                                                     [allowFiltering]="true">
+                                                    <!-- <igx-column field="Name" [sortable]="true" header=" "></igx-column> -->
+                                            </igx-grid>                                    
+                                        </div>
+
+                                </div>
+                        </mat-tab>
+
+                        <!-- Messaging tab -->
+                        <mat-tab label="Messaging">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                    <div class="content" fxLayout="row">
+
+                            <mail fusePerfectScrollbar fxFlex></mail>
+
+                            <!-- <igx-grid [data]="localData" [autoGenerate]="false" height="400px">
+                                <igx-column field="foo" header="Foo" [sortable]="true" [filterable]="true"></igx-column>
+                                <igx-column field="bar" header="Bar" [sortable]="true" [filterable]="true"></igx-column>
+                            </igx-grid> -->
+
+                                            
+                                        </div>
+                            </div>
+
+                        </mat-tab>
+
+                        <!-- Turnover tab -->
+                        <mat-tab label="Turnover">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+
+                                <!-- Icon group - Currency -->
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">attach_money</mat-icon>
+                                    <div class="h2 secondary-text">Currency</div>
+                                </div>
+                                <section class="custom-section" style="border:1px;">
+                                    <mat-radio-group>
+                                        <mat-radio-button class="custom-margin" checked value="after">Pound
+                                        </mat-radio-button>
+                                        <mat-radio-button class="custom-margin" value="before">Euro</mat-radio-button>
+                                        <mat-radio-button class="custom-margin" value="cent">US Dollar
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </section>
+                                <!-- Icon group - Date Ranage -->
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Date Ranage</div>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Year</mat-label>
+                                        <mat-select>
+                                            <mat-option [value]="0">
+                                                Show all
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Year</mat-label>
+                                        <mat-select>
+                                            <mat-option [value]="0">
+                                                Show all
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- Icon group - Latest Turnover -->
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Latest Turnover</div>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <div>
+                                        <table style="max-width:49%;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td>Sales</td>
+                                                    <td>Credits</td>
+                                                    <td>Total</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>30-days:</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>60 days:</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>90 days:</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>365 days:</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div>
+                                        <table style="max-width:49%;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td>Sales</td>
+                                                    <td>Credits</td>
+                                                    <td>Total</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>30-days</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>60 days</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>90 days</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>365 days</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- Icon group - Year's Turnover -->
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Year's Turnover</div>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+                                    <div>
+                                        <table style="max-width:49%;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td>Sales</td>
+                                                    <td>Credits</td>
+                                                    <td>Total</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>January</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>February</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>March</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>April</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>May</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>June</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>July</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>August</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>September</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>October</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>November</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>December</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div>
+                                        <table style="max-width:49%;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td>Sales</td>
+                                                    <td>Credits</td>
+                                                    <td>Total</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>January</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>February</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>March</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>April</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>May</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>June</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>July</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>August</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>September</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>October</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>November</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>December</td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="legacy">
+                                                            <input matInput name="Account" type="number"
+                                                                formControlName="outstanding">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-tab>
+
+                        <!-- Stock history tab -->
+                        <mat-tab label="Stock History">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+
+                                <!-- Icon group - Contact Information -->
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Date Range</div>
+                                </div>
+                                <section class="custom-section">
+                                    <mat-radio-group>
+                                        <mat-radio-button class="custom-margin" checked></mat-radio-button>
+                                        <mat-form-field class="custom-margin" appearance="outline" floatLabel="always"
+                                            fxFlex="30">
+                                            <mat-label>Last</mat-label>
+                                            <mat-select>
+                                                    <mat-option [value]="TM">
+                                                        12 Months
+                                                    </mat-option>
+                                                    <mat-option [value]="SM">
+                                                            6 Months
+                                                    </mat-option>
+                                                    <mat-option [value]="TM">
+                                                            3 Months
+                                                    </mat-option>
+                                                    <mat-option [value]="OM">
+                                                            1 Month
+                                                    </mat-option>
+                                                </mat-select>
+                                        </mat-form-field>
+
+                                        <mat-radio-button class="custom-margin"></mat-radio-button>
+                                        <mat-form-field class="custom-margin" appearance="outline" floatLabel="always"
+                                            fxFlex="30">
+                                            <mat-label>Start Date</mat-label>
+                                            <input matInput placeholder="Created" name="Created"
+                                                formControlName="firstOrderDate" type="date">
+                                        </mat-form-field>
+
+                                        <mat-form-field class="custom-margin" appearance="outline" floatLabel="always"
+                                            fxFlex="30">
+                                            <mat-label>End Date</mat-label>
+                                            <input matInput placeholder="Created" name="Created"
+                                                formControlName="firstOrderDate" type="date">
+                                        </mat-form-field>
+
+                                    </mat-radio-group>
+                                    <button mat-raised-button class="accent">
+                                        <span>Apply Filter</span>
+                                    </button>
+                                    
+                                </section>
+                                <div fxLayout="row" fxLayoutAlign="margin-left">
+
+                                        <igx-grid #grid1 [data]="data | async" [autoGenerate]="false" [paging]="true" [perPage]="10" (onColumnInit)="initColumns($event)"
+                                                 [allowFiltering]="true">
+                                                <!-- <igx-column field="Name" [sortable]="true" header=" "></igx-column> -->
+                                        </igx-grid>                                    
+                                </div>
+
+                            </div>
+
+                        </mat-tab>
+
+                    </mat-tab-group>
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

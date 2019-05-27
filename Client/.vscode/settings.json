@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/01b11d1f-c6a2-4a9d-9752-3986b99141f7/resourceGroups/syngis-training-resource-group/providers/Microsoft.Web/sites/cloudrims",
+    "appService.deploySubpath": "dist"
+}

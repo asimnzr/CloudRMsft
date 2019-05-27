@@ -1,0 +1,385 @@
+<div id="mycustomers" class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+        <!-- HEADER -->
+        <div
+            class="header accent"
+            fxLayout="column"
+            fxLayoutAlign="center center"
+            fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center"
+        >
+            <!-- APP TITLE -->
+            <div
+                class="logo mb-24 mb-md-0"
+                fxLayout="row"
+                fxLayoutAlign="start center"
+            >
+                <!-- <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    shopping_basket
+                </mat-icon> -->
+                <span
+                    class="logo-text h1"
+                    [@animate]="{
+                        value: '*',
+                        params: { delay: '100ms', x: '-25px' }
+                    }"
+                >
+                    My Customers
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div
+                    class="search"
+                    fxFlex
+                    fxLayout="row"
+                    fxLayoutAlign="start center"
+                >
+                    <mat-icon (click)="filterCustomers()">search</mat-icon>
+                    <input
+                        placeholder="Search for a customer"
+                        [(ngModel)]="searchTerm"
+                    />
+                </div>
+            </div>
+            <!-- / SEARCH -->
+
+            <!-- ADD BUTTON -->
+            <button
+                mat-raised-button
+                (click)="filterCustomers(true)"
+                class="add-product-button fuse-white mt-24 mt-md-0"            >
+                <span>Show All Results</span>
+            </button>
+            <!-- / ADD BUTTON -->
+        </div>
+
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Advanced Search
+                    </mat-panel-title>
+                    <mat-panel-description> </mat-panel-description>
+                </mat-expansion-panel-header>
+                
+                <div fxLayout="column" fxLayoutAlign="center">
+            
+                    <div class="filters" fxLayout="column" fxLayoutAlign="left left"
+                    fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between left">
+
+                <mat-form-field appearance="outline" floatLabel="always" class="category-selector">
+                    <mat-label>Stopped</mat-label>
+                    <mat-select
+                    [(ngModel)] ="currentStopped"
+                        (selectionChange)="filterCustomers()"
+                    >
+                        <mat-option [value]="'ShowBoth'">
+                            Show Both
+                        </mat-option>
+                        <mat-option [value]="'ShowOnlyStopped'">
+                            Show Only Stopped
+                        </mat-option>
+                        <mat-option [value]="'HideStopped'">
+                            Hide Stopped
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" floatLabel="always" class="category-selector">
+                    <mat-label>Website</mat-label>
+                    <mat-select
+                        [(ngModel)]="currentWebsite"
+                        (selectionChange)="filterCustomers()"
+                    >
+                        <mat-option [value]="4">
+                            Show All
+                        </mat-option>
+                        <mat-option [value]="3">
+                            Full Access
+                        </mat-option>
+                        <mat-option [value]="1">
+                            No Access
+                        </mat-option>
+                        <mat-option [value]="2">
+                            Guest
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" floatLabel="always" class="category-selector">
+                    <mat-label>Trade Show</mat-label>
+                    <mat-select
+                        [(ngModel)]="currentTradeShow"
+                        (selectionChange)="filterCustomers()"
+                    >
+                    <mat-option [value]="'null'">
+                        
+                    </mat-option>
+                        <mat-option [value]="52">
+                            Spring Fair 2019
+                        </mat-option>
+                        <mat-option [value]="51">
+                            Maison Objet January 2019
+                        </mat-option>
+                        <mat-option [value]="50">
+                            Nuremberg Spielwarenmesse 2019
+                        </mat-option>
+                        <mat-option [value]="49">
+                            Ambiente 2019
+                        </mat-option>
+                        <mat-option [value]="47">
+                            Maison Sept 2018
+                        </mat-option>
+                        <mat-option [value]="46">
+                            Autumn Fair 2018
+                        </mat-option>
+                        <mat-option [value]="45">
+                            Tendence 2018
+                        </mat-option>
+                        <mat-option [value]="3">
+                            Internet
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-checkbox>Show hidden</mat-checkbox>
+
+                <mat-form-field appearance="outline" floatLabel="always" class="category-selector">
+                    <mat-label>Mailing List (Subscribed)</mat-label>
+                    <mat-select
+                        [(ngModel)]="currentMailingList"
+                        (selectionChange)="filterCustomers()"
+                    >
+                        <mat-option [value]="3">
+                            Show Both
+                        </mat-option>
+                        <mat-option [value]="1">
+                            Subscribed
+                        </mat-option>
+                        <mat-option [value]="2">
+                            Not subscribed
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+            </div>
+            <div class="filters" fxLayout="column" fxLayoutAlign="left left"
+            fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between left">
+
+                
+                <mat-form-field appearance="outline" floatLabel="always" class="category-selector">
+                    <mat-label>Live Customers</mat-label>
+                    <mat-select 
+                    [(ngModel)]="currentLiveCustomers"
+                        (selectionChange)="filterCustomers()"
+                    >
+                        <mat-option [value]="false">
+                            Show all
+                        </mat-option>
+                        <mat-option
+                            [value]="true"
+                        >
+                        Show only customers with invoice in last 12 months
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" floatLabel="always" class="category-selector">
+                    <mat-label>Mailing List (Export)</mat-label>
+                    <mat-select 
+                    [(ngModel)]="currentMailingLstExport"
+                        (selectionChange)="filterCustomers()"
+                    >
+                        <mat-option [value]="3">
+                            Show Both
+                        </mat-option>
+                        <mat-option [value]="1">
+                            Export
+                        </mat-option>
+                        <mat-option [value]="2">
+                            Not export
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" floatLabel="always" class="category-selector">
+                    <mat-label>Recommended Stockist</mat-label>
+                    <mat-select [(ngModel)]="currentRecommendedStockist"
+                        (selectionChange)="filterCustomers()"
+                    >
+                        <mat-option [value]="0">
+                            Show all
+                        </mat-option>
+                        <mat-option [value]="1">
+                            Show stockists
+                        </mat-option>
+                        <mat-option [value]="2">
+                            Don't show stockists
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                
+                <mat-checkbox
+                    [(ngModel)]="currentIgnoreBranches"
+                    (change)="filterCustomers()"
+                    >Ignore branches</mat-checkbox
+                >
+                <mat-checkbox
+                    [(ngModel)]="currentShowDelAccts"
+                    (change)="filterCustomers()"
+                    >Show deleted accounts</mat-checkbox
+                >
+
+                
+
+            </div>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+        <br />
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+            <mat-table
+                class="mycustomers-table"
+                #table
+                [dataSource]="dataSource"
+                matSort
+                [@animateStagger]="{ value: '50' }"
+                fusePerfectScrollbar
+            >
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >ID</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.id }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Account Column -->
+                <ng-container matColumnDef="account">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Account</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.account }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Name</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.name }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Address1 col -->
+                <ng-container matColumnDef="address1">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Address1</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.address1 }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Address3 col -->
+                <ng-container matColumnDef="address3">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Address3</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.address3 }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Address4 col -->
+                <ng-container matColumnDef="address4">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Address4</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.address4 }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Country col -->
+                <ng-container matColumnDef="country">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Country</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.country }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Phone col -->
+                <ng-container matColumnDef="phone">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Phone</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.phone }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Email col -->
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Email</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.email }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- VATNumber col -->
+                <ng-container matColumnDef="VATNumber">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >VATNumber</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let customer">
+                        <p class="text-truncate">{{ customer.vatNumber }}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                    *matHeaderRowDef="displayedColumns; sticky: true"
+                ></mat-header-row>
+
+                <mat-row *matRowDef="let customer; columns: displayedColumns"
+                    class="mycustomers"
+                    matRipple
+                    [routerLink]="'/customers/viewcustomer/'+customer.account+'/'+customer.account">
+                </mat-row>
+            </mat-table>
+
+            <mat-paginator
+                #paginator
+                [length]="dataSource.filteredData.length"
+                [pageIndex]="0"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+            >
+            </mat-paginator>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
